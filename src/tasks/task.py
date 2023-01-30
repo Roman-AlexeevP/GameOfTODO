@@ -1,7 +1,7 @@
 from datetime import datetime
 from enum import Enum
 
-from .general import Any
+from src.core.general import Any
 
 
 class PriorityTypes(Enum):

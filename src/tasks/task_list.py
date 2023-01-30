@@ -1,7 +1,7 @@
 from typing import Iterable, List
 
 from .task import Task
-from .general import Any
+from src.core.general import Any
 
 
 class TaskList(Any):
