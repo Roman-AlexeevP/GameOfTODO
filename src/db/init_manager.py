@@ -2,7 +2,6 @@ from pathlib import Path
 from typing import List
 
 from .core_driver import DbDriver
-from . import consts
 
 import logging
 
@@ -14,7 +13,7 @@ class InitManager(DbDriver):
     OPEN_SCRIPT_ERROR = 2
     OPEN_SCRIPT_INIT = 3
 
-    def __init__(self, init_files: List[Path], db_name=consts.DB_NAME):
+    def __init__(self, init_files: List[Path], db_name):
         super().__init__(db_name)
         self.init_scripts = init_files
         self.open_script_status = self.OPEN_SCRIPT_INIT
@@ -30,6 +29,7 @@ class InitManager(DbDriver):
         return query
 
     def init_database(self):
+        logger.info("Starting DB initialization")
         failed_scripts = []
         for file in self.init_scripts:
             query = self.get_script_from_file(file)
@@ -37,6 +37,7 @@ class InitManager(DbDriver):
                 failed_scripts.append(file.name)
                 continue
             self.query(query)
+            logger.info(f"{file.name} successfully initiate")
         if failed_scripts:
             self.describe_failed_files(failed_scripts)
 

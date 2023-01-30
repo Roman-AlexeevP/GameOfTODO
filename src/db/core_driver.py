@@ -2,14 +2,13 @@ import sqlite3
 import logging
 
 from ..core.general import Any
-from . import consts
 
 logger = logging.getLogger(__name__)
 
 
 class DbDriver(Any):
 
-    def __init__(self, db_name: str = consts.DB_NAME):
+    def __init__(self, db_name):
         self.db_name = db_name
 
     def _create_connection(self) -> sqlite3.Connection:
