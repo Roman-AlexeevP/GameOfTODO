@@ -32,6 +32,7 @@ class Task(Any):
         self.is_complete = True
 
     def __init__(self,
+                 uid: int,
                  hours_to_complete: float,
                  priority_type: PriorityTypes,
                  ended_at: datetime,
@@ -43,6 +44,7 @@ class Task(Any):
                  worked_hours: float = 0,
                  ):
         super().__init__()
+        self.uid = uid
         self.name = name
         self.description = description
         self.hours_to_complete = hours_to_complete
