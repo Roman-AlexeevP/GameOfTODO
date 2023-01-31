@@ -46,7 +46,6 @@ class TaskManager(DbDriver):
 
     def create_one(self, task: Task) -> Task:
         task_fields_for_create = [
-            "uid",
             "name",
             "description",
             "hours_to_complete",
@@ -64,7 +63,6 @@ class TaskManager(DbDriver):
         VALUES ({column_placeholders});
         """
         data = (
-            task.uid,
             task.name,
             task.description,
             task.hours_to_complete,
@@ -75,7 +73,8 @@ class TaskManager(DbDriver):
             task.worked_hours,
             task.priority_type,
         )
-        self.query(query_string, data=data)
+        result = self.query(query_string, data=data)
+        task.uid = result.lastrowid
         return task
 
     def create_multiple(self, tasks_list: TaskList) -> TaskList:
