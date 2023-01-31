@@ -22,11 +22,11 @@ class DbDriver(Any):
     def _create_cursor(self, connection: sqlite3.Connection) -> sqlite3.Cursor:
         return connection.cursor()
 
-    def query(self, sql_query: str, **kwargs):
+    def query(self, sql_query: str, *args, **kwargs):
         connection = self._create_connection()
         cursor = self._create_cursor(connection)
         try:
-            result = cursor.execute(sql_query, **kwargs)
+            result = cursor.execute(sql_query, *args, **kwargs)
         except sqlite3.Error as exception:
             logger.exception(exception)
         else:

@@ -1,8 +1,12 @@
+from typing import Dict
+
 from .core_driver import DbDriver
 from . import consts
 from ..tasks.task import Task
 from ..tasks.task_list import TaskList
 
+import logging
+logger = logging.getLogger(__name__)
 
 class TaskManager(DbDriver):
 
@@ -27,6 +31,7 @@ class TaskManager(DbDriver):
         SELECT {",".join(task_fields_for_select)}
         FROM {self.table_name};
         """
+        logger.debug(query_string)
         result = self.query(query_string)
         task_list = TaskList()
         for raw_task in result.fetchall():
@@ -39,9 +44,16 @@ class TaskManager(DbDriver):
         pass
 
     def delete_by_uid(self, uid: int) -> bool:
-        pass
+        query_string = f"""
+        DELETE FROM {self.table_name}
+        WHERE uid = ?
+        """
+        logger.debug(query_string)
+        params = (uid, )
+        result = self.query(query_string, params)
+        return True
 
-    def update_by_id(self, uid: int) -> Task:
+    def update_by_id(self, uid: int, fields_to_update: Dict) -> Task:
         pass
 
     def create_one(self, task: Task) -> Task:
@@ -62,6 +74,7 @@ class TaskManager(DbDriver):
         INSERT INTO {self.table_name} ({column_names}) 
         VALUES ({column_placeholders});
         """
+        logger.debug(query_string)
         data = (
             task.name,
             task.description,
@@ -73,7 +86,7 @@ class TaskManager(DbDriver):
             task.worked_hours,
             task.priority_type,
         )
-        result = self.query(query_string, data=data)
+        result = self.query(query_string, data)
         task.uid = result.lastrowid
         return task
 
