@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS tasks (
-    id INTEGER PRIMARY KEY,
+    uid INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     description TEXT,
     hours_to_complete INTEGER NOT NULL ,
