@@ -6,7 +6,9 @@ from ..tasks.task import Task
 from ..tasks.task_list import TaskList
 
 import logging
+
 logger = logging.getLogger(__name__)
+
 
 class TaskManager(DbDriver):
 
@@ -41,7 +43,29 @@ class TaskManager(DbDriver):
         return task_list
 
     def get_by_uid(self, uid: int) -> Task:
-        pass
+        task_fields_for_select = [
+            "uid",
+            "name",
+            "description",
+            "hours_to_complete",
+            "is_active",
+            "is_complete",
+            "created_at",
+            "ended_at",
+            "worked_hours",
+            "priority_type",
+        ]
+        query_string = f"""
+                SELECT {",".join(task_fields_for_select)}
+                FROM {self.table_name}
+                WHERE uid=?;
+                """
+        logger.debug(query_string)
+        params = (uid,)
+        result = self.query(query_string, params)
+        mapped_values_from_query = dict(zip(task_fields_for_select, result.fetchone()))
+        task = Task(**mapped_values_from_query)
+        return task
 
     def delete_by_uid(self, uid: int) -> bool:
         query_string = f"""
@@ -49,12 +73,22 @@ class TaskManager(DbDriver):
         WHERE uid = ?
         """
         logger.debug(query_string)
-        params = (uid, )
+        params = (uid,)
         result = self.query(query_string, params)
         return True
 
     def update_by_id(self, uid: int, fields_to_update: Dict) -> Task:
-        pass
+        column_names_repr = f"=?, ".join(fields_to_update.keys())
+        params = tuple([*fields_to_update.values(), uid])
+        query_string = f"""
+        UPDATE {self.table_name}
+        SET {column_names_repr}
+        WHERE uid=?
+        """
+        logger.debug(query_string)
+        result = self.query(query_string, params)
+        return self.get_by_uid(result.lastrowid)
+
 
     def create_one(self, task: Task) -> Task:
         task_fields_for_create = [
