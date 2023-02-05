@@ -4,10 +4,10 @@ CREATE TABLE IF NOT EXISTS tasks (
     description TEXT,
     hours_to_complete INTEGER NOT NULL ,
     priority_type INTEGER NOT NULL ,
-    ended_at DATETIME,
+    ended_at TIMESTAMP NULL,
     is_active TINYINT NOT NULL DEFAULT 0,
     is_complete TINYINT NOT NULL DEFAULT 0,
-    created_at DATETIME NOT NULL,
+    created_at TIMESTAMP NOT NULL,
     worked_hours INTEGER
 
 )

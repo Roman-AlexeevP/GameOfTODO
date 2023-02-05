@@ -28,8 +28,18 @@ class User(Any):
         self.task_manager = task_manager
 
     def init_tasks(self):
+        self.task_manager.load_test_data()
         all_tasks = self.task_manager.get_all()
         self.task_matrix = TaskMatrix()
         self.task_matrix.init_from_task_list(all_tasks)
         print(self.task_matrix.get_str_repr_of_count())
+        print(self.task_matrix)
 
+    def create_new_task(self):
+        pass
+
+    def complete_task(self):
+        pass
+
+    def add_worked_hours_to_task(self):
+        pass

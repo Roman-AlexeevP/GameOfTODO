@@ -35,7 +35,6 @@ class TaskManager(DbDriver):
         """
         logger.debug(query_string)
         result = self.query(query_string, return_result_type=self.RETURN_MANY)
-
         task_list = TaskList()
         for raw_task in result:
             mapped_values_from_query = dict(zip(task_fields_for_select, raw_task))
@@ -90,7 +89,6 @@ class TaskManager(DbDriver):
         result = self.query(query_string, params)
         return self.get_by_uid(result.lastrowid)
 
-
     def create_one(self, task: Task) -> Task:
         task_fields_for_create = [
             "name",
@@ -125,5 +123,10 @@ class TaskManager(DbDriver):
         task.uid = result.lastrowid
         return task
 
-    def create_multiple(self, tasks_list: TaskList) -> TaskList:
-        pass
+    def load_test_data(self):
+        sql_string = f"""
+        INSERT or IGNORE INTO {self.table_name} (uid, name, description, hours_to_complete , priority_type , created_at , worked_hours)
+        VALUES (1, 'Закрыть курс', 'описание', 10, 1, '2023-02-10 13:00:00', 0); 
+        """
+        logger.debug(sql_string)
+        self.query(sql_string)

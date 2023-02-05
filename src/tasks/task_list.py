@@ -45,7 +45,9 @@ class TaskList(Any):
                 new_task_list.insert(task)
         return new_task_list
 
+    def __len__(self):
+        return len(self.tasks)
+
     def __str__(self):
-        return f"""
-            {[f"{task.name} {task.worked_hours} / {task.hours_to_complete} часов" for task in self.tasks]}
-        """
+        return "\n".join([f"{task.name} {task.worked_hours} / {task.hours_to_complete} часов" for task in self.tasks]) or "-"
+
