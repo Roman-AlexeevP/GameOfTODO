@@ -1,6 +1,6 @@
 from typing import Iterable, List
 
-from .task import Task
+from .task import Task, PriorityTypes
 from src.core.general import Any
 
 
@@ -29,3 +29,10 @@ class TaskList(Any):
 
     def get_last_created_task(self) -> Task:
         return self.get_sorted_by_creation_time().pop(0)
+
+    def get_tasks_by_type(self, task_type: PriorityTypes):
+        new_task_list = TaskList()
+        for task in self.tasks:
+            if task.priority_type == task_type:
+                new_task_list.insert(task)
+        return new_task_list
