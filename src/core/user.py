@@ -35,11 +35,3 @@ class User(Any):
         print(self.task_matrix.get_str_repr_of_count())
         print(self.task_matrix)
 
-    def create_new_task(self):
-        pass
-
-    def complete_task(self):
-        pass
-
-    def add_worked_hours_to_task(self):
-        pass
