@@ -27,7 +27,8 @@ class TaskMatrix(Any):
         self.important_not_urgent_tasks = task_list.get_tasks_by_type(PriorityTypes.IMPORTANT_NOT_URGENT)
         self.not_important_not_urgent_tasks = task_list.get_tasks_by_type(PriorityTypes.NOT_IMPORTANT_NOT_URGENT)
 
-
+    def get_str_repr_of_count(self) -> str:
+        return f"Текущее кол-во задач: {self.get_summary_tasks_count()}"
 
     def get_summary_tasks_count(self):
-        return sum((len(task_list) for task_list in self.all_tasks_matrix))
+        return sum((len(task_list) if task_list is not None else 0 for task_list in self.all_tasks_matrix))

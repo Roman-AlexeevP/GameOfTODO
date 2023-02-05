@@ -21,7 +21,8 @@ class GameHeroManager(DbDriver):
         ]
         query_string = f"""
         SELECT {", ".join(fields_for_select)}
-        FROM {self.table_name};
+        FROM {self.table_name}
+        LIMIT 1;
         """
         logger.debug(query_string)
         result = self.query(query_string, return_result_type=self.RETURN_ONE)
@@ -44,3 +45,10 @@ class GameHeroManager(DbDriver):
         logger.debug(query_string)
         self.query(query_string, params)
         return hero
+
+    def load_test_data(self):
+        query_string = f"""
+        INSERT OR REPLACE INTO {self.table_name} (name, current_level, current_experience)
+        values ('test_hero', 0, 0)        ;
+        """
+        self.query(query_string)

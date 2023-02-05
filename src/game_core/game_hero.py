@@ -6,7 +6,7 @@ from tasks.task import Task
 class GameHero(Any):
     LEVELUP_STABLE = 1
     LEVELUP_DONE = 2
-
+    LEVEL_MULTIPLIER = 10
     def __init__(self,
                  name: str,
                  current_experience: float = 1.0,
@@ -14,7 +14,7 @@ class GameHero(Any):
         self.name = name
         self.current_experience = current_experience
         self.current_level = current_level
-        self.experience_to_next_level = self.experience_to_next_level(current_level)
+        self.experience_to_next_level = self.exp_for_lvl_formula(current_level)
         self.levelup_status = self.LEVELUP_STABLE
 
     def up_level(self):
@@ -45,3 +45,6 @@ class GameHero(Any):
 
     def exp_for_lvl_formula(self, level):
         return (level * self.LEVEL_MULTIPLIER) + (level + 1)
+
+    def __str__(self):
+        return f"Герой {self.current_level} уровня с опытом {self.current_experience}/{self.experience_to_next_level}"

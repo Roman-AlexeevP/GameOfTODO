@@ -34,11 +34,13 @@ class Application(Any):
         tasks_manager = TaskManager(db_name=self.db_name)
         self.user.set_game_hero_manager(game_hero_manager)
         self.user.set_task_manager(tasks_manager)
+        self.user.init_game_hero()
         self.user.init_tasks()
-        self.user.init_tasks()
-
 
     def get_files_from_folder(self, folder_name: str) -> List[Path]:
         folder_path = Path(folder_name)
         files = [file for file in folder_path.iterdir()]
         return files
+
+    def exists_database(self) -> bool:
+        return Path(self.db_name).exists()
