@@ -8,8 +8,10 @@ class GameHero(Any):
     LEVELUP_DONE = 2
 
     def __init__(self,
+                 name: str,
                  current_experience: float = 1.0,
                  current_level: int = 0):
+        self.name = name
         self.current_experience = current_experience
         self.current_level = current_level
         self.experience_to_next_level = self.experience_to_next_level(current_level)
