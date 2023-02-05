@@ -1,6 +1,6 @@
 from .task import PriorityTypes
 from .task_list import TaskList
-from src.core.general import Any
+from core.general import Any
 
 
 class TaskMatrix(Any):

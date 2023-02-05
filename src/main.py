@@ -1,5 +1,5 @@
 import logging
-from src.core.application import Application
+from core.application import Application
 
 logger = logging.getLogger(__name__)
 

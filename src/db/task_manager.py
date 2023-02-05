@@ -2,8 +2,8 @@ from typing import Dict
 
 from .core_driver import DbDriver
 from . import consts
-from ..tasks.task import Task
-from ..tasks.task_list import TaskList
+from tasks.task import Task
+from tasks.task_list import TaskList
 
 import logging
 
@@ -34,9 +34,10 @@ class TaskManager(DbDriver):
         FROM {self.table_name};
         """
         logger.debug(query_string)
-        result = self.query(query_string)
+        result = self.query(query_string, return_result_type=self.RETURN_MANY)
+
         task_list = TaskList()
-        for raw_task in result.fetchall():
+        for raw_task in result:
             mapped_values_from_query = dict(zip(task_fields_for_select, raw_task))
             task = Task(**mapped_values_from_query)
             task_list.insert(task)
@@ -62,8 +63,8 @@ class TaskManager(DbDriver):
                 """
         logger.debug(query_string)
         params = (uid,)
-        result = self.query(query_string, params)
-        mapped_values_from_query = dict(zip(task_fields_for_select, result.fetchone()))
+        result = self.query(query_string, params, return_result_type=self.RETURN_ONE)
+        mapped_values_from_query = dict(zip(task_fields_for_select, result))
         task = Task(**mapped_values_from_query)
         return task
 

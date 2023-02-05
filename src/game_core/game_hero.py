@@ -1,6 +1,6 @@
-from ..core.general import Any
+from core.general import Any
 from .experience_convertor import ExperienceConverter
-from ..tasks.task import Task
+from tasks.task import Task
 
 
 class GameHero(Any):

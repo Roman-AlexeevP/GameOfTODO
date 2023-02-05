@@ -1,8 +1,6 @@
-from typing import Dict
-
 from .core_driver import DbDriver
 from . import consts
-from ..game_core.game_hero import GameHero
+from game_core.game_hero import GameHero
 
 import logging
 
@@ -26,8 +24,8 @@ class GameHeroManager(DbDriver):
         FROM {self.table_name};
         """
         logger.debug(query_string)
-        result = self.query(query_string)
-        mapped_values = dict(zip(fields_for_select, result.fetchone()))
+        result = self.query(query_string, return_result_type=self.RETURN_ONE)
+        mapped_values = dict(zip(fields_for_select, result))
         hero = GameHero(
             current_experience=mapped_values.get("current_experience", 0),
             current_level=mapped_values.get("current_level", 0),
@@ -44,5 +42,5 @@ class GameHeroManager(DbDriver):
                 WHERE name=?
                 """
         logger.debug(query_string)
-        result = self.query(query_string, params)
+        self.query(query_string, params)
         return hero

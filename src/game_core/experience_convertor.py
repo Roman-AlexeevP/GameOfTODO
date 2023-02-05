@@ -1,4 +1,4 @@
-from ..core.general import Any
+from core.general import Any
 from . import consts
 
 

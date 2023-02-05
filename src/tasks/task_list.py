@@ -1,13 +1,14 @@
 from typing import Iterable, List
 
 from .task import Task, PriorityTypes
-from src.core.general import Any
+from core.general import Any
 
 
 class TaskList(Any):
 
-    def __init__(self, tasks_iterable: Iterable[Task]):
-        self.tasks: List[Task] = list(tasks_iterable)
+    def __init__(self, tasks_iterable: Iterable[Task] = None):
+
+        self.tasks: List[Task] = list(tasks_iterable) if tasks_iterable is not None else []
 
     def insert(self, task: Task):
         self.tasks.append(task)
